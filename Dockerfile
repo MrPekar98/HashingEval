@@ -14,5 +14,5 @@ ADD src/ /home/eval/src/
 WORKDIR /home/eval
 RUN mvn clean install
 
-ENTRYPOINT java -jar target/TripleHashEvaluator-hashing.jar data/wikidata-prefiltered.nt > result/output
+ENTRYPOINT java -jar target/TripleHashEvaluator-hashing.jar data/${DATA} > result/output
 CMD []
