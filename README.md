@@ -12,7 +12,7 @@ docker build -t eval .
 Run the container with volumes to dataset.
 
 ```
-docker run --rm -v ${PWD}/result/:/home/eval/result/ -v <DATASET-PATH>:/home/eval/data/ -d eval
+docker run --rm -v ${PWD}/result/:/home/eval/result/ -v <DATASET-PATH>:/home/eval/data/ -e DATA='<DATASET>' -d eval
 ```
 
-```<DATASET-PATH>``` is the path to the input dataset.
+```<DATASET-PATH>``` is the path to the input dataset and ```<DATASET>``` is the name of the dataset file.
