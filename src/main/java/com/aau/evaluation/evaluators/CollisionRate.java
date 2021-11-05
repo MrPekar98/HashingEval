@@ -2,6 +2,7 @@ package com.aau.evaluation.evaluators;
 
 import org.apache.jena.graph.Triple;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,7 +19,7 @@ public class CollisionRate implements Evaluatable
     {
         this.triples = triples;
         this.evaluationName = evalName;
-        computeCollisions();
+        //computeCollisions();
     }
 
     private void computeCollisions()
@@ -65,20 +66,24 @@ public class CollisionRate implements Evaluatable
     @Override
     public double eval()
     {
-        int count = 0, i = 0;
+        int count = 0, iteration = 0;
+        List<Triple> triples = new ArrayList(this.triples);
 
-        for (Triple t1 : this.triples)
+        for (int i = 0; i < triples.size(); i++)
         {
-            for (Triple t2 : this.triples)
+            for (int j = i + 1; j < triples.size(); j++)
             {
-                if (!t1.equals(t2))
-                    count += t1.hashCode() == t2.hashCode() ? 1 : 0;
+                if (triples.get(i).hashCode() == triples.get(j).hashCode())
+                {
+                    count++;
+                    break;
+                }
             }
 
-            this.prog = ((double) i++ / this.triples.size()) * 100;
+            this.prog = ((double) iteration++ / triples.size()) * 100;
         }
 
-        return ((double) count / this.triples.size()) * 100;
+        return ((double) count / triples.size()) * 100;
     }
 
     @Override

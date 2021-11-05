@@ -41,12 +41,12 @@ public final class EvaluationLogger
         return ((double) count / this.futures.size()) * 100;
     }
 
-    private static void logProgress(double prog)
+    private static synchronized void logProgress(double prog)
     {
         System.out.println("Progress: " + prog + "%");
     }
 
-    private void logResults()
+    private synchronized void logResults()
     {
         for (Future<String> future : this.futures)
         {
