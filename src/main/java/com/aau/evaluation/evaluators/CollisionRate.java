@@ -19,42 +19,6 @@ public class CollisionRate implements Evaluatable
     {
         this.triples = triples;
         this.evaluationName = evalName;
-        //computeCollisions();
-    }
-
-    private void computeCollisions()
-    {
-        new Thread(() -> {
-            synchronized (this.lock)
-            {
-                for (Triple t : this.triples)
-                {
-                    insertTriple(t);
-                }
-            }
-        }).start();
-    }
-
-    private void insertTriple(Triple t)
-    {
-        boolean inserted = false;
-
-        for (Collection<Triple> ct : this.collisions)
-        {
-            if (ct.size() > 0 && ct.stream().findFirst().get().hashCode() == t.hashCode())
-            {
-                ct.add(t);
-                inserted = true;
-                break;
-            }
-        }
-
-        if (!inserted)
-        {
-            Collection<Triple> c = new ArrayList<>();
-            c.add(t);
-            this.collisions.add(c);
-        }
     }
 
     @Override
