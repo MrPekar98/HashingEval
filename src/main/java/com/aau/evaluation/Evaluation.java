@@ -1,7 +1,6 @@
 package com.aau.evaluation;
 
-import com.aau.evaluation.evaluators.CollisionRate;
-import com.aau.evaluation.evaluators.HashSetCollisions;
+import com.aau.evaluation.evaluators.*;
 import org.apache.jena.graph.Triple;
 
 import java.io.File;
@@ -33,7 +32,10 @@ public class Evaluation
 
         CollisionRate cr = new CollisionRate(triples, "Triple Hashcode Collision Rate");
         HashSetCollisions hsc = new HashSetCollisions(triples, "Java HashSet Collision Rate");
-        EvaluationLogger logger = new EvaluationLogger(List.of(cr, hsc));
+        JenaHashBunchCollisionRate jhbc = new JenaHashBunchCollisionRate(triples, "Jena HashBunch");
+        HashSetAndrewOma hsao = new HashSetAndrewOma(triples, "Andrew Oma HashSet");
+        HashMultisetCollisionRate hmcr = new HashMultisetCollisionRate(triples, "JSON-LD HashMultiset");
+        EvaluationLogger logger = new EvaluationLogger(List.of(cr, hsc, jhbc, hsao, hmcr));
         logger.computeAndLog();
     }
 }
