@@ -29,14 +29,19 @@ public class Evaluation
         Collection<Triple> triples = LinearTripleCollector.
                                                 createCollector(datasetURI).
                                                 getTriples();
-
-        CollisionRate cr = new CollisionRate(triples, "Triple Hashcode Collision Rate");
-        HashSetCollisions hsc = new HashSetCollisions(triples, "Java HashSet Collision Rate");
-        JenaHashBunchCollisionRate jhbc = new JenaHashBunchCollisionRate(triples, "Jena HashBunch");
-        HashSetAndrewOma hsao = new HashSetAndrewOma(triples, "Andrew Oma HashSet");
-        HashMultisetCollisionRate hmcr = new HashMultisetCollisionRate(triples, "JSON-LD HashMultiset");
-        BasicStaticHashTableCollisionRate bshtcr = new BasicStaticHashTableCollisionRate(triples, "basic Hash Table");
-        EvaluationLogger logger = new EvaluationLogger(List.of(cr, hsc, jhbc, hsao, hmcr, bshtcr));
+        EvaluationLogger logger = new EvaluationLogger(evaluators(triples));
         logger.computeAndLog();
+    }
+
+    private static List<Evaluatable> evaluators(Collection<Triple> triples)
+    {
+        return List.of(
+                new CollisionRate(triples, "Triple Hashcode Collision Rate"),
+                new HashSetCollisions(triples, "Java HashSet Collision Rate"),
+                new JenaHashBunchCollisionRate(triples, "Jena HashBunch"),
+                new HashSetAndrewOma(triples, "Andrew Oma HashSet"),
+                new HashMultisetCollisionRate(triples, "JSON-LD HashMultiset"),
+                new BasicStaticHashTableCollisionRate(triples, "Basic Hash Table")
+        );
     }
 }

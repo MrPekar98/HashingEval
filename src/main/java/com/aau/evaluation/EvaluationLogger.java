@@ -58,6 +58,7 @@ public final class EvaluationLogger
             catch (ExecutionException | InterruptedException exc)
             {
                 System.err.println("An com.aau.evaluation.evaluation has failed due to multithreading");
+                exc.printStackTrace();
             }
         }
     }
