@@ -1,8 +1,6 @@
 package com.aau.evaluation.structs;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 public class BasicStaticHashTable extends BaseHashTable
@@ -13,20 +11,18 @@ public class BasicStaticHashTable extends BaseHashTable
     public BasicStaticHashTable(int capacity)
     {
         this.objects = new Object[capacity];
-        clean();
+        clear();
     }
 
-    private void clean()
+    public BasicStaticHashTable(Object[] objs)
     {
-        for (int i = 0; i < this.objects.length; i++)
-        {
-            this.objects[i] = null;
-        }
+        this(objs.length);
+        addAll(Arrays.asList(objs));
     }
 
     private boolean doIfExists(Function<Object, Boolean> func, Object o)
     {
-        if (this.objects[hash(o.hashCode(), this.objects.length)] == null)
+        if (this.objects[hash(o.hashCode(), this.objects.length)] != null)
             return func.apply(o);
 
         return false;
@@ -94,11 +90,14 @@ public class BasicStaticHashTable extends BaseHashTable
     @Override
     protected boolean baseAdd(Object o)
     {
-        return doIfExists((Object obj) -> {
-            this.objects[hash(obj.hashCode(), this.objects.length)] = obj;
+        if (!doIfExists((Object obj) -> true, o))
+        {
+            this.objects[hash(o.hashCode(), this.objects.length)] = o;
             this.size++;
             return true;
-        }, o);
+        }
+
+        return false;
     }
 
     @Override
@@ -114,11 +113,8 @@ public class BasicStaticHashTable extends BaseHashTable
     @Override
     protected void baseClear()
     {
-        for (int i = 0; i < this.objects.length; i++)
-        {
-            this.objects[i] = null;
-        }
-
+        Arrays.fill(this.objects, null);
+        this.size = 0;
         System.gc();
     }
 

@@ -35,7 +35,8 @@ public class Evaluation
         JenaHashBunchCollisionRate jhbc = new JenaHashBunchCollisionRate(triples, "Jena HashBunch");
         HashSetAndrewOma hsao = new HashSetAndrewOma(triples, "Andrew Oma HashSet");
         HashMultisetCollisionRate hmcr = new HashMultisetCollisionRate(triples, "JSON-LD HashMultiset");
-        EvaluationLogger logger = new EvaluationLogger(List.of(cr, hsc, jhbc, hsao, hmcr));
+        BasicStaticHashTableCollisionRate bshtcr = new BasicStaticHashTableCollisionRate(triples, "basic Hash Table");
+        EvaluationLogger logger = new EvaluationLogger(List.of(cr, hsc, jhbc, hsao, hmcr, bshtcr));
         logger.computeAndLog();
     }
 }
