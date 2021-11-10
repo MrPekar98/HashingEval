@@ -41,6 +41,6 @@ public class BasicStaticHashTableCollisionRate implements Evaluatable
     public double eval()
     {
         this.hashTable = new BasicStaticHashTable(this.triples.toArray());
-        return (1 - (this.hashTable.size() % this.triples.size())) * 100;
+        return (1 - ((double) this.hashTable.size() / this.triples.size())) * 100;
     }
 }

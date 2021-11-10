@@ -8,7 +8,7 @@ public abstract class BaseHashTable implements Collection<Object>
 {
     protected static int hash(int hashCode, int n)
     {
-        return hashCode % n;
+        return Math.abs(hashCode) % n;
     }
 
     @Override
