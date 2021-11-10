@@ -39,8 +39,6 @@ public class Evaluation
                 new CollisionRate(triples, "Triple Hashcode Collision Rate"),
                 new HashSetCollisions(triples, "Java HashSet Collision Rate"),
                 new JenaHashBunchCollisionRate(triples, "Jena HashBunch"),
-                new HashSetAndrewOma(triples, "Andrew Oma HashSet"),
-                new HashMultisetCollisionRate(triples, "JSON-LD HashMultiset"),
                 new BasicStaticHashTableCollisionRate(triples, "Basic Hash Table")
         );
     }

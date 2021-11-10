@@ -2,6 +2,7 @@ package com.aau.evaluation.evaluators;
 
 import org.apache.jena.graph.Triple;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,10 +14,14 @@ public class HashSetCollisions implements Evaluatable
     private double prog = 0;
     private static final String UNIT = "%";
 
+    private Integer[] table;
+
     public HashSetCollisions(Collection<Triple> triples, String evalTitle)
     {
         this.title = evalTitle;
         this.triples = triples;
+
+        this.table = new Integer[triples.size()];
     }
 
     // JDK 11 HashMap hash function including indexing.

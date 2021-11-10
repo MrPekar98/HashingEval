@@ -1,7 +1,6 @@
 package com.aau.evaluation.evaluators;
 
 import org.apache.jena.graph.Triple;
-import org.apache.jena.mem.ArrayBunch;
 import org.apache.jena.mem.HashedBunchMap;
 
 import java.util.Collection;
@@ -13,11 +12,16 @@ public class JenaHashBunchCollisionRate implements Evaluatable
     private Collection<Triple> triples;
     private double prog = 0;
     private HashedBunchMap bunchMap = new HashedBunchMap();
+    private Triple[] values;
+    private Integer[] keys;
+    private int collisionCount = 0;
 
     public JenaHashBunchCollisionRate(Collection<Triple> triples, String evalName)
     {
         this.triples = triples;
         this.title = evalName;
+        this.values = new Triple[triples.size()];
+        this.keys = new Integer[triples.size()];
     }
 
     @Override
@@ -41,23 +45,55 @@ public class JenaHashBunchCollisionRate implements Evaluatable
     @Override
     public double eval()
     {
-        int count = 0, iteration = 0;
+        this.collisionCount = 0;
+        this.triples.forEach(this::put);
+        return ((double) this.collisionCount / this.triples.size()) * 100;
+    }
 
-        for (Triple t : this.triples)
+    public void put(Triple value)
+    {
+        int slot = findSlot(value.hashCode(), this.keys);
+
+        if (slot < 0)
+            this.values[~slot] = value;
+
+        else
         {
-            if (this.bunchMap.get(t.hashCode()) != null)
-                count++;
-
-            else
-            {
-                ArrayBunch ab = new ArrayBunch();
-                ab.add(t);
-                this.bunchMap.put(t.hashCode(), ab);
-            }
-
-            this.prog = ((double) iteration++ / this.triples.size()) * 100;
+            this.keys[slot] = value.hashCode();
+            this.values[slot] = value;
         }
+    }
 
-        return ((double) count / this.triples.size()) * 100;
+    private int findSlot(Integer key, Integer[] keys)
+    {
+        int index = initialIndexFor(key, keys.length), newCount = this.collisionCount + 1;
+
+        while(true)
+        {
+            Integer current = keys[index];
+
+            if (current == null)
+                return index;
+
+
+            if (key.equals(current))
+                return ~index;
+
+            this.collisionCount = newCount;
+            --index;
+
+            if (index < 0)
+                index += keys.length;
+        }
+    }
+
+    private static int initialIndexFor(Integer key, int capacity)
+    {
+        return (improveHashCode(key.hashCode()) & 2147483647) % capacity;
+    }
+
+    private static int improveHashCode(int hashCode)
+    {
+        return hashCode * 127;
     }
 }
