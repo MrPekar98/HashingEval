@@ -5,7 +5,7 @@ import org.apache.jena.graph.Triple;
 
 import java.util.Collection;
 
-public class BasicStaticHashTableCollisionRate implements Evaluatable
+public class BasicStaticHashTableCollisionRate implements Evaluatable<Double>
 {
     private static final String UNIT = "%";
     private double prog = 0;
@@ -38,7 +38,7 @@ public class BasicStaticHashTableCollisionRate implements Evaluatable
     }
 
     @Override
-    public double eval()
+    public Double eval()
     {
         this.hashTable = new BasicStaticHashTable(this.triples.toArray());
         return (1 - ((double) this.hashTable.size() / this.triples.size())) * 100;

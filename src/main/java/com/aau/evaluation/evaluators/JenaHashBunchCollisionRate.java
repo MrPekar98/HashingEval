@@ -5,7 +5,7 @@ import org.apache.jena.mem.HashedBunchMap;
 
 import java.util.Collection;
 
-public class JenaHashBunchCollisionRate implements Evaluatable
+public class JenaHashBunchCollisionRate implements Evaluatable<Double>
 {
     private static final String UNIT = "%";
     private String title;
@@ -43,7 +43,7 @@ public class JenaHashBunchCollisionRate implements Evaluatable
     }
 
     @Override
-    public double eval()
+    public Double eval()
     {
         this.collisionCount = 0;
         this.triples.forEach(this::put);

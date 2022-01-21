@@ -1,9 +1,9 @@
 package com.aau.evaluation.evaluators;
 
-public interface Evaluatable
+public interface Evaluatable<R>
 {
     String title();
-    double eval();
+    R eval();
     String unit();
     double progress();
 }

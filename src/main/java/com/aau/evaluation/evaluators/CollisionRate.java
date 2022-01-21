@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class CollisionRate implements Evaluatable
+public class CollisionRate implements Evaluatable<Double>
 {
     private Collection<Triple> triples;
     private final Collection<Collection<Triple>> collisions = new ArrayList<>();
@@ -28,7 +28,7 @@ public class CollisionRate implements Evaluatable
     }
 
     @Override
-    public double eval()
+    public Double eval()
     {
         int count = 0, iteration = 0;
         List<Triple> triples = new ArrayList(this.triples);

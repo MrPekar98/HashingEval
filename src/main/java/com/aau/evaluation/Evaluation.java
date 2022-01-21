@@ -38,6 +38,7 @@ public class Evaluation
         return List.of(
                 new CollisionRate(triples, "Triple Hashcode Collision Rate"),
                 new HashSetCollisions(triples, "Java HashSet Collision Rate"),
+                new HashSetMaxBucketSize(triples, "JDK 11 Max HashSet Bucket Size"),
                 new JenaHashBunchCollisionRate(triples, "Jena HashBunch"),
                 new BasicStaticHashTableCollisionRate(triples, "Basic Hash Table")
         );
