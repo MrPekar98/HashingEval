@@ -40,7 +40,8 @@ public class Evaluation
                 new HashSetCollisions(triples, "Java HashSet Collision Rate"),
                 new HashSetMaxBucketSize(triples, "JDK 11 Max HashSet Bucket Size"),
                 new JenaHashBunchCollisionRate(triples, "Jena HashBunch"),
-                new BasicStaticHashTableCollisionRate(triples, "Basic Hash Table")
+                new BasicStaticHashTableCollisionRate(triples, "Basic Hash Table Collision Rate"),
+                new BloomFilterCollisionRate(triples, "2-Level Bloom Filter Positive Rate (125% # triple slots)")
         );
     }
 }

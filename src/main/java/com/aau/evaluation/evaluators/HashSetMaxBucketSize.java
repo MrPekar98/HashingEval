@@ -12,7 +12,7 @@ public class HashSetMaxBucketSize implements Evaluatable<String>
     private String title;
     private Collection<Triple> triples;
     private double prog = 0;
-    private static String UNIT = "";
+    private static final String UNIT = "";
 
     public HashSetMaxBucketSize(Collection<Triple> triples, String evalTitle)
     {
@@ -48,6 +48,7 @@ public class HashSetMaxBucketSize implements Evaluatable<String>
         {
             int idx = hash(t, this.triples.size());
             frequencies.add(idx, frequencies.get(idx) + 1);
+            this.prog += (double) 1 / this.triples.size();
         }
 
         return bucketSizesStr(frequencies);
