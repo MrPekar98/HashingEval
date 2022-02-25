@@ -18,7 +18,7 @@ public class BloomFilterCollisionRate implements Evaluatable<Double>
     {
         this.title = title;
         this.triples = triples;
-        this.filter = new BloomFilter2((int) ((double) triples.size() * 1.25));
+        this.filter = new BloomFilter2((int) (((double) triples.size() / 2) * 1.25));
     }
 
     @Override
@@ -42,19 +42,24 @@ public class BloomFilterCollisionRate implements Evaluatable<Double>
     @Override
     public Double eval()
     {
-        int count = 0;
+        int count = 0, i = 0;
 
         for (Triple t : this.triples)
         {
+            if (i++ == this.triples.size() / 2)
+                break;
+
             this.filter.add(t);
         }
 
+        i = 0;
+
         for (Triple t : this.triples)
         {
-            if (this.filter.lookup(t))
+            if (i++ >= this.triples.size() / 2 && this.filter.lookup(t))
                 count++;
         }
 
-        return ((double) count / this.triples.size()) * 100;
+        return ((double) count / (this.triples.size() / 2)) * 100;
     }
 }
