@@ -46,10 +46,12 @@ public class BloomFilterCollisionRate implements Evaluatable<Double>
 
         for (Triple t : this.triples)
         {
-            if (!this.filter.lookup(t))
-                this.filter.add(t);
+            this.filter.add(t);
+        }
 
-            else
+        for (Triple t : this.triples)
+        {
+            if (this.filter.lookup(t))
                 count++;
         }
 
